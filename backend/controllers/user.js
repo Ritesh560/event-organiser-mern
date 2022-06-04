@@ -1,7 +1,11 @@
 const express = require("express")
 const router = express.Router()
+
+//validatior and bcrypt for authetentication
 const { check, validationResult } = require("express-validator")
 const bcrypt = require("bcryptjs")
+
+//jwt for token generation
 const jwt = require("jsonwebtoken")
 const config = require("config")
 
@@ -36,7 +40,7 @@ router.post("/", [check("email", "please Enter a valid email.").isEmail(), check
 
     await user.save()
 
-    return res.status(200).json({ msg: "account created successfully." })
+    return res.status(200).json({ msg: "account created successfully.", userId: user.id })
   } catch (err) {
     console.log(err)
     return req.status(400).send(err)

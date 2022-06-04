@@ -6,11 +6,11 @@ const useSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    name: {
+    event_name: {
       type: String,
       required: true,
     },
-    type: {
+    event_type: {
       type: Array,
       required: true,
     },
