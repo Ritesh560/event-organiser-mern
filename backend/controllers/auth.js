@@ -7,7 +7,6 @@ const config = require("config")
 
 //importing models
 const User = require("../models/user")
-var profileLock = []
 
 router.post("/", [check("email", "please Enter a valid email.").isEmail(), check("password", "Password is required.").exists()], async (req, res) => {
   const errors = validationResult(req)
@@ -26,29 +25,7 @@ router.post("/", [check("email", "please Enter a valid email.").isEmail(), check
     //authenticating password
     const isMatch = await bcrypt.compare(password, user.password)
 
-    var toLock = profileLock.find((ele) => ele.email === email)
-    console.log(toLock)
-
-    if (toLock && toLock.attempts == 4) {
-      if (toLock.time > Date.now()) return res.status(400).json({ errors: [{ msg: "Profile is Locked." }] })
-      else {
-        toLock.attempts = 0
-      }
-    }
-
     if (!isMatch) {
-      if (toLock) {
-        if (toLock.attempts == 3) {
-          toLock.time = Date.now() + 1800000
-          toLock.attempts++
-          return res.status(400).json({ errors: [{ msg: "Profile is Locked." }] })
-        } else {
-          toLock.attempts++
-        }
-      } else {
-        profileLock.push({ email: email, attempts: 1, time: Date.now() })
-      }
-
       return res.status(400).json({ errors: [{ msg: "Invalid credentials" }] })
     }
 

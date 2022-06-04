@@ -6,16 +6,20 @@ const useSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    movie: {
+    name: {
       type: String,
       required: true,
     },
-    rating: {
+    type: {
       type: Array,
+      required: true,
+    },
+    date: {
+      type: Number,
       required: true,
     },
   },
   { timestamps: true }
 )
 
-module.exports = reviews = mongoose.model("reviews", useSchema)
+module.exports = reviews = mongoose.model("events", useSchema)

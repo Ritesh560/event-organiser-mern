@@ -14,10 +14,6 @@ const useSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  age: {
-    type: Number,
-    required: false,
-  },
 })
 
 module.exports = User = mongoose.model("users", useSchema)
