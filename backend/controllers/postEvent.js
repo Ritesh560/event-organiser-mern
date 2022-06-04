@@ -9,28 +9,19 @@ const bcrypt = require("bcryptjs")
 const User = require("../models/user")
 const events = require("../models/events")
 
-router.post("/", [check("email", "please Enter a valid email.").isEmail(), check("event_name", "Event name is required.").exists(), check("event_type", "Event type is required.").exists(), check("password", "Password is required.").exists(), check("date", "Event date is required.").exists()], async (req, res) => {
+router.post("/", [check("userId", "please Enter a valid userId.").exists(), check("event_name", "Event name is required.").exists(), check("event_type", "Event type is required.").exists(), check("date", "Event date is required.").exists()], async (req, res) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() })
   }
 
-  const { evnet_name, event_type, date, email, password } = req.body
+  const { evnet_name, event_type, date, userId } = req.body
 
   try {
-    let user = await User.findOne({ email: email })
+    let user = await User.findOne({ userId: userId })
     if (!user) {
       return res.status(400).json({ errors: [{ msg: "User does not exist." }] })
     }
-
-    //authenticating password
-    const isMatch = await bcrypt.compare(password, user.password)
-
-    if (!isMatch) {
-      return res.status(400).json({ errors: [{ msg: "Invalid credentials" }] })
-    }
-
-    var userId = user.id
 
     const event = new events({
       userId,

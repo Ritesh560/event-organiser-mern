@@ -18,7 +18,13 @@ router.get("/", [check("userId", "Please provide a UserId.").exists()], async (r
     if (!eventsArray) {
       return res.status(400).json({ errors: [{ msg: "No data." }] })
     } else {
-      return res.status(200).json(eventsArray)
+      let result = []
+
+      for (var event of eventsArray) {
+        if (event.date > new Date()) result.push(event)
+      }
+
+      return res.status(200).json(result)
     }
   } catch (err) {
     console.log(err)
