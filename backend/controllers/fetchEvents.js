@@ -1,6 +1,8 @@
 const express = require("express")
 const router = express.Router()
 
+const { check, validationResult } = require("express-validator")
+
 //importing models
 const events = require("../models/events")
 

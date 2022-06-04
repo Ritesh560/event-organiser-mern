@@ -21,20 +21,20 @@ router.post("/", [check("email", "please Enter a valid email.").isEmail(), check
   try {
     let user = await User.findOne({ email: email })
     if (!user) {
-      return res.status(400).json({ errors: [{ msg: "User does not exist." }] })
+      return res.status(200).send({ errors: [{ msg: "User does not exist." }] })
     }
 
     //authenticating password
     const isMatch = await bcrypt.compare(password, user.password)
 
     if (!isMatch) {
-      return res.status(400).json({ errors: [{ msg: "Invalid credentials" }] })
+      return res.status(200).send({ errors: [{ msg: "Invalid credentials" }] })
     }
 
-    return res.status(200).json(user)
+    console.log(user)
+    return res.status(200).send(user)
   } catch (err) {
-    console.log(err)
-    res.status(400).send(err)
+    res.status(200).send(err)
   }
 })
 

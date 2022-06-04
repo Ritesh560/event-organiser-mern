@@ -16,7 +16,7 @@ const { request } = require("express")
 router.post("/", [check("email", "please Enter a valid email.").isEmail(), check("password", "Please enter a password with 6 or more characters").isLength({ min: 6 })], async (req, res) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() })
+    return res.status(200).json({ errors: errors.array() })
   }
 
   const { email, password } = req.body
@@ -24,7 +24,7 @@ router.post("/", [check("email", "please Enter a valid email.").isEmail(), check
   try {
     let user = await User.findOne({ email: email })
     if (user) {
-      return res.status(400).json({ errors: [{ msg: "user already exists." }] })
+      return res.status(200).json({ errors: [{ msg: "user already exists." }] })
     }
 
     user = new User({
@@ -40,10 +40,10 @@ router.post("/", [check("email", "please Enter a valid email.").isEmail(), check
 
     await user.save()
 
-    return res.status(200).json({ msg: "account created successfully.", userId: user.id })
+    return res.status(200).json({ msg: "account created successfully.", user })
   } catch (err) {
     console.log(err)
-    return req.status(400).send(err)
+    return req.status(200).send(err)
   }
 })
 
