@@ -11,30 +11,32 @@ const events = require("../models/events")
 
 router.post("/", [check("userId", "please Enter a valid userId.").exists(), check("event_name", "Event name is required.").exists(), check("event_type", "Event type is required.").exists(), check("date", "Event date is required.").exists()], async (req, res) => {
   const errors = validationResult(req)
+  console.log(req.body)
+
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() })
+    return res.status(200).send({ errors: errors.array() })
   }
 
-  const { evnet_name, event_type, date, userId } = req.body
+  const { event_name, event_type, date, userId } = req.body
 
   try {
     let user = await User.findOne({ userId: userId })
     if (!user) {
-      return res.status(400).json({ errors: [{ msg: "User does not exist." }] })
+      return res.status(200).send({ errors: [{ msg: "User does not exist." }] })
     }
 
     const event = new events({
       userId,
-      evnet_name,
+      event_name,
       event_type,
       date,
     })
     await event.save()
 
-    res.status(200).json({ msg: "uploaded successfully.", userId })
+    res.status(200).send({ msg: "uploaded successfully.", userId })
   } catch (err) {
     console.log(err)
-    req.status(400).send(err)
+    req.status(200).send(err)
   }
 })
 

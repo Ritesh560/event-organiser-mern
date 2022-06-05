@@ -3,7 +3,7 @@ import "./login.css"
 import axios from "axios"
 import { useHistory } from "react-router-dom"
 
-const Login = ({ setLoginUser }) => {
+const Login = () => {
   const history = useHistory()
 
   const [user, setUser] = useState({
@@ -23,7 +23,7 @@ const Login = ({ setLoginUser }) => {
     const response = await axios.post("http://localhost:8080/login", user)
     if (response.data.errors) alert(response.data.errors[0].msg)
     if (!response.data.errors) {
-      setLoginUser(response.data)
+      console.log(response.data._id)
       localStorage.setItem("userId", response.data._id)
       history.push("/")
     }

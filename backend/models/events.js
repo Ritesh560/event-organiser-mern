@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 
 const useSchema = new mongoose.Schema(
   {
-    userid: {
+    userId: {
       type: String,
       required: true,
     },
@@ -11,11 +11,11 @@ const useSchema = new mongoose.Schema(
       required: true,
     },
     event_type: {
-      type: Array,
+      type: String,
       required: true,
     },
     date: {
-      type: Number,
+      type: String,
       required: true,
     },
   },
