@@ -31,9 +31,9 @@ router.post("/", [check("email", "please Enter a valid email.").isEmail(), check
       return res.status(200).send({ errors: [{ msg: "Invalid credentials" }] })
     }
 
-    console.log(user)
     return res.status(200).send(user)
   } catch (err) {
+    console.log(err)
     res.status(200).send(err)
   }
 })

@@ -11,7 +11,6 @@ const events = require("../models/events")
 
 router.post("/", [check("userId", "please Enter a valid userId.").exists(), check("event_name", "Event name is required.").exists(), check("event_type", "Event type is required.").exists(), check("date", "Event date is required.").exists()], async (req, res) => {
   const errors = validationResult(req)
-  console.log(req.body)
 
   if (!errors.isEmpty()) {
     return res.status(200).send({ errors: errors.array() })

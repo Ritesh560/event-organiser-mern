@@ -10,7 +10,7 @@ router.post("/", [check("userId", "Please provide a UserId.").exists()], async (
   const errors = validationResult(req)
 
   if (!errors.isEmpty()) {
-    console.log("error")
+    console.log(errors)
     return res.status(200).send({ errors: errors.array() })
   }
 
@@ -33,8 +33,6 @@ router.post("/", [check("userId", "Please provide a UserId.").exists()], async (
       const month = d.getMonth() + 1
       const date = d.getDate()
       result += year + `${month < 10 ? "-0" : "-"}` + month + `${date < 10 ? "-0" : "-"}` + date
-
-      console.log(result)
 
       for (var event of eventsArray) {
         if (event.date >= result) {
